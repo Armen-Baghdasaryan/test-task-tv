@@ -1,0 +1,40 @@
+@import 'src/styles/variables.scss';
+
+.main__container {
+  position: relative;
+  background: url(src/assets/images/video-img.png);
+  width: 100%;
+  height: 100%;
+}
+
+.main__banner {
+  position: absolute;
+  width: 100%;
+  max-width: 251px;
+  padding: 30px 10px 10px;
+  background: $cyan;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  right: 0;
+  top: 220px;
+  color: $black;
+
+  h4 {
+    max-width: 232px;
+    font-size: 16px;
+    font-weight: 500;
+    text-transform: uppercase;
+  }
+
+  p {
+    max-width: 130px;
+    font-size: 14px;
+  }
+}
+
+.main__btn {
+  color: $cyan;
+  max-width: 156px;
+}
