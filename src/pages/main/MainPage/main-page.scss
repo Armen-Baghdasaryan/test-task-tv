@@ -2,7 +2,7 @@
 
 .main__container {
   position: relative;
-  background: url(src/assets/images/video-img.png);
+  // background: url(src/assets/images/video-img.png);
   width: 100%;
   height: 100%;
 }
@@ -20,6 +20,7 @@
   right: 0;
   top: 220px;
   color: $black;
+  z-index: 10;
 
   h4 {
     max-width: 232px;

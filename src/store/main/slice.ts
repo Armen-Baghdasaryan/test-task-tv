@@ -1,15 +1,15 @@
-import { createSlice } from '@reduxjs/toolkit';
+// import { createSlice } from '@reduxjs/toolkit';
 
-export type TMainState = {};
+// export type TMainState = {};
 
-const initialState: TMainState = {};
+// const initialState: TMainState = {};
 
-const main = createSlice({
-  name: 'mainSlice',
-  initialState,
-  reducers: {},
-});
+// const main = createSlice({
+//   name: 'mainSlice',
+//   initialState,
+//   reducers: {},
+// });
 
-export const {} = main.actions;
+// export const {} = main.actions;
 
-export default main.reducer;
+// export default main.reducer;
