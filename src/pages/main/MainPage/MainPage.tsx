@@ -31,7 +31,7 @@ const MainPage = () => {
           </h4>
           <img src={qrCode} width={126} height={126} alt="qr-img" />
           <p>Сканируйте QR-код или нажмите ОК</p>
-          <button className="app__btn main__btn" onClick={() => navigate('number')}>
+          <button className="app__btn main__btn" onClick={() => navigate('order')}>
             ОК
           </button>
         </div>

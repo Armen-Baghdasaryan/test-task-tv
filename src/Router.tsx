@@ -12,8 +12,8 @@ const public_routes: RouteObject[] = [
         element: lazyLoadRoutes(() => import('pages/main/MainPage/MainPage.tsx')),
       },
       {
-        path: 'number',
-        element: lazyLoadRoutes(() => import('pages/main/NumberPage/NumberPage.tsx')),
+        path: 'order',
+        element: lazyLoadRoutes(() => import('pages/main/OrderPage/OrderPage.tsx')),
       },
       {
         path: '*',

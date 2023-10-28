@@ -1,0 +1,20 @@
+@import 'src/styles/variables.scss';
+
+.order__page {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: url(src/assets/images/page-bg.png);
+  background-size: 100% 100%;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.order__board-wrapper {
+  width: 100%;
+  height: 100%;
+  max-width: 380px;
+  padding: 72px 48px 137px;
+  box-sizing: border-box;
+  background: $cyan;
+}
