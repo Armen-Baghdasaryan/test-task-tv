@@ -1,10 +1,17 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-// import useVerifyNumber from 'hooks/useVerifyNumber';
+import useVerifyNumber from 'hooks/useVerifyNumber';
+import SuccessPage from 'pages/main/SuccessPage/SuccessPage';
+import PhoneInput from 'react-phone-input-2';
+import 'react-phone-input-2/lib/style.css';
 import './order-board.scss';
 
 const OrderBoard = () => {
   const [activeButton, setActiveButton] = useState<string>('5');
   const [chboxChecked, setChboxChecked] = useState<boolean>(false);
+  const [phoneNumber, setPhoneNumber] = useState('+7');
+  const [isSuccessPage, setIsSuccessPage] = useState<boolean>(false);
+  const { validNumber, loading } = useVerifyNumber({ phoneNumber: phoneNumber });
+  const submitAccess = validNumber && chboxChecked;
 
   const boardItems = useMemo(
     () => [
@@ -24,6 +31,39 @@ const OrderBoard = () => {
     ],
     [],
   );
+
+  const handleCheck = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setChboxChecked(e.target.checked);
+  };
+
+  const handleItemClick = (id: string) => {
+    if (id === 'x') {
+      handleClose();
+    } else if (id === 'del') {
+      handleClear();
+    } else {
+      setActiveButton(id);
+      handleTry(id);
+    }
+  };
+
+  const handleClear = () => {
+    setPhoneNumber((prev) => prev.slice(0, -1));
+  };
+
+  const handleTry = (id: string) => {
+    setPhoneNumber((prev) => prev + id);
+  };
+
+  const handleSubmit = useCallback(() => {
+    if (submitAccess) {
+      setIsSuccessPage(true);
+    }
+  }, [submitAccess]);
+
+  const handleClose = () => {
+    location.replace('/');
+  };
 
   useEffect(() => {
     const handleKeyPress = (event: KeyboardEvent) => {
@@ -53,10 +93,18 @@ const OrderBoard = () => {
         case 'Enter':
           if (activeButton === 'x') {
             handleClose();
+          } else if (activeButton === 'del') {
+            handleClear();
+          } else if (activeButton === 'ok') {
+            handleSubmit();
           } else {
-            console.log(`Значение активной кнопки: ${activeButton}`);
+            handleTry(activeButton);
           }
-
+          break;
+        case 'Backspace':
+          if (!(event.target instanceof HTMLInputElement)) {
+            handleClear();
+          }
           break;
         default:
           break;
@@ -68,66 +116,53 @@ const OrderBoard = () => {
     return () => {
       window.removeEventListener('keydown', handleKeyPress);
     };
-  }, [activeButton, boardItems]);
+  }, [activeButton, boardItems, handleSubmit]);
 
-  const handleCheck = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      setChboxChecked(e.target.checked);
-    },
-    [setChboxChecked],
-  );
-
-  const handleClose = () => {
-    location.replace('/');
-  };
-
-  const handleItemClick = (id: string) => {
-    if (id === 'x') {
-      handleClose();
-    } else {
-      setActiveButton(id);
-    }
-  };
-
-  // const { validNumber } = useVerifyNumber({ phoneNumber: '0037477994496' });
-  // console.log(validNumber);
-
-  const [phoneNumber, setPhoneNumber] = useState('');
-
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (phoneNumber.length <= 12) {
-      setPhoneNumber(event.target.value);
-    }
-  };
   return (
-    <div className="order__board">
-      <h4 className="board__title">Введите ваш номер мобильного телефона</h4>
-      <input
-        type="text"
-        className="board__input"
-        value={phoneNumber}
-        placeholder="+7(___)___-__-__"
-        onChange={handleInputChange}
-      />
-      <p className="board__info">и с Вами свяжется наш менеждер для дальнейшей консультации</p>
-      <div className="board__items">
-        {boardItems.map(({ id, value }) => (
-          <div
-            key={id}
-            className={`board__item ${activeButton === id ? 'active' : ''}`}
-            onClick={() => handleItemClick(id)}
-            style={id === 'del' ? { gridColumn: 'span 2' } : {}}
-          >
-            <p>{value}</p>
+    <>
+      {!isSuccessPage ? (
+        <div className="order__board">
+          <h4 className="board__title">Введите ваш номер мобильного телефона</h4>
+          <PhoneInput
+            inputProps={{
+              required: true,
+              autoFocus: true,
+            }}
+            onlyCountries={['us', 'ru', 'am']}
+            country={'ru'}
+            value={phoneNumber}
+            onChange={(phone) => setPhoneNumber(phone)}
+          />
+          <p className="board__info">и с Вами свяжется наш менеждер для дальнейшей консультации</p>
+          <div className="board__items">
+            {boardItems.map(({ id, value }) => (
+              <div
+                key={id}
+                className={`board__item ${activeButton === id ? 'active' : ''} ${
+                  id === 'ok' && submitAccess ? 'not__disabled' : ''
+                }`}
+                onClick={id !== 'ok' ? () => handleItemClick(id) : handleSubmit}
+                style={id === 'del' ? { gridColumn: 'span 2' } : {}}
+              >
+                <p>{value}</p>
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
-      <div className="input__chbox">
-        <input type="checkbox" id="chbox" checked={chboxChecked} onChange={handleCheck} />
-        <label htmlFor="chbox" />
-        <p>Согласие на обработку персональных данных</p>
-      </div>
-    </div>
+          <div className="input__chbox">
+            <input type="checkbox" id="chbox" checked={chboxChecked} onChange={handleCheck} />
+            <label htmlFor="chbox" />
+            <p>Согласие на обработку персональных данных</p>
+          </div>
+          {loading ? (
+            <p>Loading...</p>
+          ) : (
+            <>{phoneNumber.length > 2 && !validNumber && <p className="invalid__number">Неверно введён номер</p>}</>
+          )}
+        </div>
+      ) : (
+        <SuccessPage />
+      )}
+    </>
   );
 };
 

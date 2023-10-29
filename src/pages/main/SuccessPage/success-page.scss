@@ -1,0 +1,29 @@
+@import 'src/styles/variables.scss';
+
+.success__page {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.success__content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  color: $black;
+
+  h3 {
+    text-align: center;
+    font-size: 32px;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  p {
+    font-size: 14px;
+    font-weight: 400;
+  }
+}
