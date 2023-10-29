@@ -80,6 +80,7 @@
     height: 52px;
     border: 2px solid #000;
     background: $white;
+    transition: all .2s;
 
     &::after {
       content: '';
@@ -91,6 +92,16 @@
       transform: translate(-50%, -50%);
       background: url(src/assets/icons/close.svg);
       background-size: 100% 100%;
+    }
+
+    &:hover,
+    &:active {
+      background: $black;
+      color: $white;
+      &::after {
+        filter: brightness(0) saturate(100%) invert(100%) sepia(100%) saturate(0%) hue-rotate(288deg) brightness(102%)
+          contrast(102%);
+      }
     }
   }
 
@@ -172,7 +183,7 @@
 
 .fucused {
   background: $white;
-  border: 2px solid rgb(149, 7, 7) !important;
+  border: 2px solid #ea0000 !important;
 }
 
 .flag-dropdown {
@@ -186,7 +197,6 @@
   padding: 0 !important;
   background: none !important;
   border: none !important;
-  color: $black !important;
   font-family: $f1 !important;
   font-size: 26px !important;
   font-weight: 700 !important;

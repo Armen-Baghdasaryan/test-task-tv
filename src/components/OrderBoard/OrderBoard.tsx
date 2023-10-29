@@ -12,6 +12,7 @@ const OrderBoard = () => {
   const [phoneNumber, setPhoneNumber] = useState<string>('+7');
   const [isSuccessPage, setIsSuccessPage] = useState<boolean>(false);
   const { validNumber, loading } = useVerifyNumber({ phoneNumber: phoneNumber });
+
   const submitAccess = validNumber && chboxChecked;
 
   const boardItems = useMemo(
@@ -151,6 +152,9 @@ const OrderBoard = () => {
             value={phoneNumber}
             onChange={(phone) => setPhoneNumber(phone)}
             placeholder="+7(___)___-__-__"
+            inputStyle={{
+              color: phoneNumber.length > 10 && !validNumber ? '#ff0000' : '#000',
+            }}
           />
           <p className="board__info">и с Вами свяжется наш менеждер для дальнейшей консультации</p>
           <div className="board__items">

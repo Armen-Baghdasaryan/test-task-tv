@@ -59,7 +59,7 @@ const SuccessPage = () => {
           <p>
             Держите телефон под рукой. <br /> Скоро с Вами свяжется наш менеджер.{' '}
           </p>
-          <button className={`close__btn ${btnFocus ? 'focused' : ''}`} />
+          <button className={`close__btn ${btnFocus ? 'btn__focused' : ''}`} onClick={() => location.replace('/')} />
         </div>
       )}
     </div>

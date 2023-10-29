@@ -1,10 +1,10 @@
+import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import VideoPlayer from 'components/VideoPlayer/VideoPlayer';
 import { togglePause } from 'store/player';
 import { TRootState } from 'store';
 import qrCode from 'assets/images/qr-code.png';
-import { useEffect, useRef, useState } from 'react';
 import './main-page.scss';
 
 const MainPage = () => {
