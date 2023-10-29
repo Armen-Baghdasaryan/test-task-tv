@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import LoadingScreen from 'components/LoadingScreen/LoadingScreen';
 import './success-page.scss';
 
 const SuccessPage = () => {
@@ -50,7 +51,7 @@ const SuccessPage = () => {
   return (
     <div className="success__page">
       {isLoading ? (
-        <h3>Loading...</h3>
+        <LoadingScreen />
       ) : (
         <div className="success__content">
           <h3>

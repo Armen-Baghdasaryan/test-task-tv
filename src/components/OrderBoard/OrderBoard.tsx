@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import useVerifyNumber from 'hooks/useVerifyNumber';
 import SuccessPage from 'pages/main/SuccessPage/SuccessPage';
 import PhoneInput from 'react-phone-input-2';
+import LoadingScreen from 'components/LoadingScreen/LoadingScreen';
 import 'react-phone-input-2/lib/style.css';
 import './order-board.scss';
 
@@ -177,7 +178,7 @@ const OrderBoard = () => {
             <p>Согласие на обработку персональных данных</p>
           </div>
           {loading ? (
-            <p>Loading...</p>
+            <LoadingScreen />
           ) : (
             <>{phoneNumber.length > 2 && !validNumber && <p className="invalid__number">Неверно введён номер</p>}</>
           )}

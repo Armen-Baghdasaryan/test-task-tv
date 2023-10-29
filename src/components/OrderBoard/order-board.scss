@@ -90,7 +90,7 @@
       left: 50%;
       top: 50%;
       transform: translate(-50%, -50%);
-      background: url(src/assets/icons/close.svg);
+      background: url('src/assets/icons/close.svg');
       background-size: 100% 100%;
     }
 
@@ -160,7 +160,7 @@
       width: 24px;
       min-width: 24px;
       height: 24px;
-      background: url(src/assets/icons/check.svg);
+      background: url('src/assets/icons/check.svg');
       background-size: 100% 100%;
     }
   }
