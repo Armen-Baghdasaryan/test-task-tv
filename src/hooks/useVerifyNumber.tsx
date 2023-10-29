@@ -8,7 +8,7 @@ interface PageProps {
 interface NumberData {
   country_name: string;
   location: string;
-  valid: boolean;
+  isValid: boolean;
 }
 
 const useVerifyNumber = ({ phoneNumber }: PageProps) => {
@@ -19,7 +19,7 @@ const useVerifyNumber = ({ phoneNumber }: PageProps) => {
     setLoading(true);
     try {
       const response = await axios.get(
-        `http://apilayer.net/api/validate?access_key=c45cce54a64e7f607593d12f911c6b15&number=${phoneNumber}`,
+        `https://api-bdc.net/data/phone-number-validate?number=${phoneNumber}&countryCode=ru&localityLanguage=en&key=bdc_c9ca5d4c64474c3f978ff13d5d38e562`,
       );
       setNumberData(response.data);
     } catch (error) {
@@ -43,7 +43,7 @@ const useVerifyNumber = ({ phoneNumber }: PageProps) => {
   }, [phoneNumber, fetchNumberInfo]);
 
   return {
-    validNumber: numberData?.valid,
+    validNumber: numberData?.isValid,
     loading,
   };
 };
