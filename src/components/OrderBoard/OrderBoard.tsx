@@ -8,7 +8,8 @@ import './order-board.scss';
 const OrderBoard = () => {
   const [activeButton, setActiveButton] = useState<string>('5');
   const [chboxChecked, setChboxChecked] = useState<boolean>(false);
-  const [phoneNumber, setPhoneNumber] = useState('+7');
+  const [chboxFocused, setChboxFocused] = useState<boolean>(false);
+  const [phoneNumber, setPhoneNumber] = useState<string>('+7');
   const [isSuccessPage, setIsSuccessPage] = useState<boolean>(false);
   const { validNumber, loading } = useVerifyNumber({ phoneNumber: phoneNumber });
   const submitAccess = validNumber && chboxChecked;
@@ -79,6 +80,9 @@ const OrderBoard = () => {
           if (activeIndex < boardItems.length - 3) {
             setActiveButton(boardItems[activeIndex + 3].id);
           }
+          if (chboxChecked) {
+            setActiveButton('ok');
+          }
           break;
         case 'ArrowLeft':
           if (activeIndex > 0) {
@@ -97,8 +101,12 @@ const OrderBoard = () => {
             handleClear();
           } else if (activeButton === 'ok') {
             handleSubmit();
+          } else if (chboxFocused) {
+            setChboxChecked((prev) => !prev);
           } else {
-            handleTry(activeButton);
+            if (!validNumber) {
+              handleTry(activeButton);
+            }
           }
           break;
         case 'Backspace':
@@ -116,7 +124,17 @@ const OrderBoard = () => {
     return () => {
       window.removeEventListener('keydown', handleKeyPress);
     };
-  }, [activeButton, boardItems, handleSubmit]);
+  }, [activeButton, boardItems, validNumber, chboxChecked, chboxFocused, handleSubmit]);
+
+  useEffect(() => {
+    if (validNumber) {
+      setChboxFocused(true);
+      setActiveButton('');
+    } else {
+      setChboxFocused(false);
+      setActiveButton('5');
+    }
+  }, [validNumber]);
 
   return (
     <>
@@ -128,10 +146,11 @@ const OrderBoard = () => {
               required: true,
               autoFocus: true,
             }}
-            onlyCountries={['us', 'ru', 'am']}
+            onlyCountries={['ru']}
             country={'ru'}
             value={phoneNumber}
             onChange={(phone) => setPhoneNumber(phone)}
+            placeholder="+7(___)___-__-__"
           />
           <p className="board__info">и с Вами свяжется наш менеждер для дальнейшей консультации</p>
           <div className="board__items">
@@ -150,7 +169,7 @@ const OrderBoard = () => {
           </div>
           <div className="input__chbox">
             <input type="checkbox" id="chbox" checked={chboxChecked} onChange={handleCheck} />
-            <label htmlFor="chbox" />
+            <label htmlFor="chbox" className={chboxFocused ? 'fucused' : ''} />
             <p>Согласие на обработку персональных данных</p>
           </div>
           {loading ? (

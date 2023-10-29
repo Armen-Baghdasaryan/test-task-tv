@@ -4,12 +4,15 @@ import VideoPlayer from 'components/VideoPlayer/VideoPlayer';
 import { togglePause } from 'store/player';
 import { TRootState } from 'store';
 import qrCode from 'assets/images/qr-code.png';
+import { useEffect, useRef, useState } from 'react';
 import './main-page.scss';
 
 const MainPage = () => {
   const { isVisiable } = useSelector((store: TRootState) => store.player);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const okButtonRef = useRef<HTMLButtonElement | null>(null);
+  const [isButtonFocused, setButtonFocused] = useState(false);
 
   const onMouseEnter = () => {
     dispatch(togglePause(true));
@@ -17,6 +20,42 @@ const MainPage = () => {
 
   const onMouseLeave = () => {
     dispatch(togglePause(false));
+  };
+
+  useEffect(() => {
+    const handleKeyPress = (event: KeyboardEvent) => {
+      switch (event.key) {
+        case 'ArrowUp':
+          setFocus();
+          break;
+        case 'ArrowDown':
+          setFocus();
+          break;
+        case 'ArrowLeft':
+          setFocus();
+          break;
+        case 'ArrowRight':
+          setFocus();
+          break;
+        case 'Enter':
+          if (isButtonFocused) {
+            navigate('order');
+          }
+          break;
+        default:
+          break;
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyPress);
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyPress);
+    };
+  }, [isButtonFocused, navigate]);
+
+  const setFocus = () => {
+    setButtonFocused((prev) => !prev);
   };
 
   return (
@@ -31,7 +70,11 @@ const MainPage = () => {
           </h4>
           <img src={qrCode} width={126} height={126} alt="qr-img" />
           <p>Сканируйте QR-код или нажмите ОК</p>
-          <button className="app__btn main__btn" onClick={() => navigate('order')}>
+          <button
+            ref={okButtonRef}
+            className={`app__btn main__btn ${isButtonFocused ? 'focused' : ''}`}
+            onClick={() => navigate('order')}
+          >
             ОК
           </button>
         </div>

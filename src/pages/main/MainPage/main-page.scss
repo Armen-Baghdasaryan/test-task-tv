@@ -37,4 +37,10 @@
 .main__btn {
   color: $cyan;
   max-width: 156px;
+  border: 3px solid transparent;
+}
+
+.focused {
+  border: 3px solid $white;
+  color: $white;
 }

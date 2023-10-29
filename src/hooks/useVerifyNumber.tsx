@@ -19,7 +19,7 @@ const useVerifyNumber = ({ phoneNumber }: PageProps) => {
     setLoading(true);
     try {
       const response = await axios.get(
-        `http://apilayer.net/api/validate?access_key=891e44814b06d65385141fcf18bc048d&number=${phoneNumber}`,
+        `http://apilayer.net/api/validate?access_key=c45cce54a64e7f607593d12f911c6b15&number=${phoneNumber}`,
       );
       setNumberData(response.data);
     } catch (error) {
@@ -32,7 +32,9 @@ const useVerifyNumber = ({ phoneNumber }: PageProps) => {
   useEffect(() => {
     const delay = 1000;
     const timer = setTimeout(() => {
-      fetchNumberInfo();
+      if (phoneNumber.length > 10) {
+        fetchNumberInfo();
+      }
     }, delay);
 
     return () => {
